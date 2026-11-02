@@ -13,8 +13,12 @@
 
 #[cfg(any(feature = "prodtest", feature = "micropython"))]
 mod font_robotomono_light_30;
+mod font_robotomono_medium_21;
 #[cfg(any(feature = "prodtest", feature = "micropython"))]
 mod font_robotomono_medium_38;
+mod font_ttsatoshi_demibold_18;
+mod font_ttsatoshi_demibold_21;
+mod font_ttsatoshi_demibold_42;
 #[cfg(any(feature = "prodtest", feature = "micropython"))]
 mod font_ttsatoshi_extralight_46;
 mod font_ttsatoshi_extralight_72;
@@ -23,33 +27,28 @@ mod font_ttsatoshi_medium_26;
 mod font_ttsatoshi_regular_22;
 mod font_ttsatoshi_regular_38;
 
-#[cfg(any(feature = "prodtest", feature = "micropython"))]
-use font_robotomono_light_30::Font_RobotoMono_Light_30_info;
-#[cfg(any(feature = "prodtest", feature = "micropython"))]
-use font_robotomono_medium_38::Font_RobotoMono_Medium_38_info;
-#[cfg(any(feature = "prodtest", feature = "micropython"))]
-use font_ttsatoshi_extralight_46::Font_TTSatoshi_ExtraLight_46_info;
+use font_robotomono_medium_21::Font_RobotoMono_Medium_21_info;
+use font_ttsatoshi_demibold_18::Font_TTSatoshi_DemiBold_18_info;
+use font_ttsatoshi_demibold_21::Font_TTSatoshi_DemiBold_21_info;
+use font_ttsatoshi_demibold_42::Font_TTSatoshi_DemiBold_42_info;
 #[cfg(feature = "bootloader")]
 use font_ttsatoshi_extralight_72::Font_TTSatoshi_ExtraLight_72_NumsOnly_info;
-#[cfg(any(feature = "prodtest", feature = "micropython"))]
-use font_ttsatoshi_extralight_72::Font_TTSatoshi_ExtraLight_72_info;
-use font_ttsatoshi_medium_26::Font_TTSatoshi_Medium_26_info;
-#[cfg(any(feature = "prodtest", feature = "micropython"))]
-use font_ttsatoshi_regular_22::Font_TTSatoshi_Regular_22_info;
-use font_ttsatoshi_regular_38::Font_TTSatoshi_Regular_38_info;
 
+// The 240x240 display of T3T1 needs the same typographic hierarchy at a
+// smaller physical size. For the spike, the Eckhart roles are mapped onto the
+// already-proven Delizia faces.
 #[cfg(any(feature = "prodtest", feature = "micropython"))]
-pub const FONT_MONO_LIGHT_30: crate::ui::display::Font = &Font_RobotoMono_Light_30_info;
+pub const FONT_MONO_LIGHT_30: crate::ui::display::Font = &Font_RobotoMono_Medium_21_info;
 #[cfg(any(feature = "prodtest", feature = "micropython"))]
-pub const FONT_MONO_MEDIUM_38: crate::ui::display::Font = &Font_RobotoMono_Medium_38_info;
+pub const FONT_MONO_MEDIUM_38: crate::ui::display::Font = &Font_RobotoMono_Medium_21_info;
 #[cfg(any(feature = "prodtest", feature = "micropython"))]
-pub const FONT_SATOSHI_EXTRALIGHT_46: crate::ui::display::Font = &Font_TTSatoshi_ExtraLight_46_info;
+pub const FONT_SATOSHI_EXTRALIGHT_46: crate::ui::display::Font = &Font_TTSatoshi_DemiBold_42_info;
 #[cfg(any(feature = "prodtest", feature = "micropython"))]
-pub const FONT_SATOSHI_EXTRALIGHT_72: crate::ui::display::Font = &Font_TTSatoshi_ExtraLight_72_info;
+pub const FONT_SATOSHI_EXTRALIGHT_72: crate::ui::display::Font = &Font_TTSatoshi_DemiBold_42_info;
 #[cfg(feature = "bootloader")]
 pub const FONT_SATOSHI_EXTRALIGHT_72_NUMS_ONLY: crate::ui::display::Font =
     &Font_TTSatoshi_ExtraLight_72_NumsOnly_info;
-pub const FONT_SATOSHI_MEDIUM_26: crate::ui::display::Font = &Font_TTSatoshi_Medium_26_info;
+pub const FONT_SATOSHI_MEDIUM_26: crate::ui::display::Font = &Font_TTSatoshi_DemiBold_21_info;
 #[cfg(any(feature = "prodtest", feature = "micropython"))]
-pub const FONT_SATOSHI_REGULAR_22: crate::ui::display::Font = &Font_TTSatoshi_Regular_22_info;
-pub const FONT_SATOSHI_REGULAR_38: crate::ui::display::Font = &Font_TTSatoshi_Regular_38_info;
+pub const FONT_SATOSHI_REGULAR_22: crate::ui::display::Font = &Font_TTSatoshi_DemiBold_18_info;
+pub const FONT_SATOSHI_REGULAR_38: crate::ui::display::Font = &Font_TTSatoshi_DemiBold_21_info;

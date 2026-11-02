@@ -1,11 +1,9 @@
-use num_traits::ToPrimitive;
-
 use super::firmware::{
-    AllowedTextContent, ConfirmHomescreen, ConfirmHomescreenMsg, DeviceMenuScreen, Homescreen,
-    HomescreenMsg, MnemonicInput, MnemonicKeyboard, MnemonicKeyboardMsg, NumberInput, PinKeyboard,
-    PinKeyboardMsg, ProgressScreen, SelectWordCountMsg, SelectWordCountScreen, SelectWordMsg,
-    SelectWordScreen, SetBrightnessScreen, StringInput, StringKeyboard, StringKeyboardMsg,
-    TextScreen, TextScreenMsg, ValueInput, ValueInputScreen, ValueInputScreenMsg,
+    AllowedTextContent, ConfirmHomescreen, ConfirmHomescreenMsg, Homescreen, HomescreenMsg,
+    MnemonicInput, MnemonicKeyboard, MnemonicKeyboardMsg, NumberInput, PinKeyboard, PinKeyboardMsg,
+    ProgressScreen, SelectWordCountMsg, SelectWordCountScreen, SelectWordMsg, SelectWordScreen,
+    SetBrightnessScreen, StringInput, StringKeyboard, StringKeyboardMsg, TextScreen, TextScreenMsg,
+    ValueInput, ValueInputScreen, ValueInputScreenMsg,
 };
 use crate::micropython::{Error, Obj};
 use crate::ui::component::text::paragraphs::{Checklist, ParagraphVecShort};
@@ -180,26 +178,5 @@ impl ComponentMsgObj for ConfirmHomescreen {
 impl ComponentMsgObj for SetBrightnessScreen {
     fn msg_try_into_obj(&self, _msg: Self::Msg) -> Result<Obj, Error> {
         Ok(CONFIRMED.as_obj())
-    }
-}
-
-impl ComponentMsgObj for DeviceMenuScreen {
-    fn msg_try_into_obj(&self, msg: Self::Msg) -> Result<Obj, Error> {
-        let next_menu_id = self.next_menu_id(msg);
-        let vertical_offset: u16 = match self.current_state() {
-            // If the same menu will be displayed, reuse current menu offset.
-            Some((current_menu_id, vertical_offset)) if current_menu_id == next_menu_id => {
-                // Only non-negative offsets are used.
-                vertical_offset.try_into().unwrap_or(0)
-            }
-            _ => 0, // Otherwise, don't reapply current menu offset.
-        };
-        (
-            msg.id_to_obj(),
-            msg.args_to_obj(),
-            next_menu_id.to_u8(),
-            vertical_offset,
-        )
-            .try_into()
     }
 }

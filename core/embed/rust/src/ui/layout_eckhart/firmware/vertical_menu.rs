@@ -112,13 +112,13 @@ pub enum VerticalMenuMsg {
 
 impl<T: MenuItems> VerticalMenu<T> {
     const SIDE_INSETS: Insets = Insets::sides(12);
-    const MENU_ITEM_CONTENT_PADDING: i16 = 32;
+    const MENU_ITEM_CONTENT_PADDING: i16 = 8;
     #[cfg(test)]
     pub const TEST_MENU_ITEM_CONTENT_PADDING: i16 = Self::MENU_ITEM_CONTENT_PADDING;
 
     // Overlap with the header. Must be lower than MENU_ITEM_CONTENT_PADDING so the
     // content is not clipped.
-    pub const BUTTON_TOP_SHRINK: i16 = 24;
+    pub const BUTTON_TOP_SHRINK: i16 = 6;
 
     fn new(buttons: T) -> Self {
         Self {

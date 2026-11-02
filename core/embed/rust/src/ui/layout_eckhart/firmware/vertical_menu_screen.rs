@@ -49,9 +49,9 @@ impl<T: MenuItems> VerticalMenuScreen<T> {
     const TOUCH_SENSITIVITY_DIVIDER: i16 = 8;
     const SUBTITLE_STYLE: TextStyle =
         theme::TEXT_MEDIUM_GREY.with_line_breaking(LineBreaking::BreakAtWhitespace);
-    const SUBTITLE_HEIGHT: i16 = 68;
-    const SUBTITLE_DOUBLE_HEIGHT: i16 = 100;
-    const SUBTITLE_PADDING: i16 = 20;
+    const SUBTITLE_HEIGHT: i16 = 32;
+    const SUBTITLE_DOUBLE_HEIGHT: i16 = 48;
+    const SUBTITLE_PADDING: i16 = 10;
     const OVERFLOW_ARROW_Y_OFFSET: i16 = 18;
     const OVERFLOW_ARROW_ICON: Icon = theme::ICON_CHEVRON_DOWN_MINI;
 
@@ -255,7 +255,21 @@ impl<T: MenuItems> Component for VerticalMenuScreen<T> {
         debug_assert_eq!(bounds.height(), SCREEN.height());
         debug_assert_eq!(bounds.width(), SCREEN.width());
 
-        let (header_area, rest) = bounds.split_top(Header::HEADER_HEIGHT);
+        // A header without a title should not reserve any space, otherwise menus
+        // without a title start with a visible gap. Buttons (e.g. close) are
+        // still drawn as an overlay on top of the first menu item.
+        let rest = if self.header.has_title() {
+            let (header_area, rest) = bounds.split_top(Header::HEADER_HEIGHT);
+            self.header.place(header_area);
+            rest
+        } else {
+            let header_area = Rect::from_top_left_and_size(
+                bounds.top_left(),
+                Offset::new(bounds.width(), Header::HEADER_HEIGHT),
+            );
+            self.header.place(header_area);
+            bounds
+        };
 
         let menu_area = if let Some(subtitle) = &mut self.subtitle {
             // Choose appropriate height for the subtitle
@@ -285,7 +299,6 @@ impl<T: MenuItems> Component for VerticalMenuScreen<T> {
             rest.outset(Insets::top(VerticalMenu::<ShortMenuVec>::BUTTON_TOP_SHRINK))
         };
 
-        self.header.place(header_area);
         self.menu.place(menu_area);
 
         bounds

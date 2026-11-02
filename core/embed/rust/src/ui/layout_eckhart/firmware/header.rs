@@ -35,7 +35,7 @@ pub enum HeaderMsg {
 
 impl Header {
     pub const HEADER_HEIGHT: i16 = theme::HEADER_HEIGHT; // [px]
-    const BUTTON_TOUCH_EXPAND: Insets = Insets::sides(32); // [px]
+    const BUTTON_TOUCH_EXPAND: Insets = Insets::sides(24); // [px]
 
     pub const fn new(title: TString<'static>) -> Self {
         Self {
@@ -49,6 +49,23 @@ impl Header {
             icon_area: Rect::zero(),
             fuel_gauge: Some(FuelGauge::on_charging_change()),
         }
+    }
+
+    /// Whether the header has a visible title.
+    pub fn has_title(&self) -> bool {
+        !self.title.text().is_empty()
+    }
+
+    /// Whether the header would render anything at all.
+    pub fn is_empty(&self) -> bool {
+        self.title.text().is_empty()
+            && self.left_button.is_none()
+            && self.right_button.is_none()
+            && self.icon.is_none()
+            && self
+                .fuel_gauge
+                .as_ref()
+                .map_or(true, |gauge| !gauge.should_be_shown())
     }
 
     #[inline(never)]

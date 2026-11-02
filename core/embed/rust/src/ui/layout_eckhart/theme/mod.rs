@@ -73,23 +73,25 @@ pub const fn color_to_led_color(color: Color) -> Color {
 }
 
 // Common constants
-pub const PADDING: i16 = 24; // [px]
-pub const HEADER_HEIGHT: i16 = 96; // [px]
+// Scaled for the 240x240 display of T3T1. Eckhart's native values are tuned
+// for 380x520: horizontal metrics scale by ~0.63, vertical ones by ~0.46.
+pub const PADDING: i16 = 15; // [px]
+pub const HEADER_HEIGHT: i16 = 52; // [px]
 pub const SIDE_INSETS: Insets = Insets::sides(PADDING);
-pub const ACTION_BAR_HEIGHT: i16 = 90; // [px]
-pub const TEXT_VERTICAL_SPACING: i16 = 24; // [px]
+pub const ACTION_BAR_HEIGHT: i16 = 42; // [px]
+pub const TEXT_VERTICAL_SPACING: i16 = 11; // [px]
 /// Where to place main content if no Header is used on the Screen
-pub const CONTENT_INSETS_NO_HEADER: Insets = Insets::new(38, PADDING, ACTION_BAR_HEIGHT, PADDING);
+pub const CONTENT_INSETS_NO_HEADER: Insets = Insets::new(18, PADDING, ACTION_BAR_HEIGHT, PADDING);
 /// Where to place main text of progress screens of bootloader and firmware
 pub const PROGRESS_TEXT_ORIGIN: Point = super::constant::SCREEN
     .top_left()
     .ofs(Offset::new(PADDING, CONTENT_INSETS_NO_HEADER.top));
 
 // checklist settings
-pub const CHECKLIST_CHECK_WIDTH: i16 = 32; // [px]
-pub const CHECKLIST_SPACING: i16 = 40; // [px]
-pub const CHECKLIST_DONE_OFFSET: Offset = Offset::y(7);
-pub const CHECKLIST_CURRENT_OFFSET: Offset = Offset::y(4);
+pub const CHECKLIST_CHECK_WIDTH: i16 = 20; // [px]
+pub const CHECKLIST_SPACING: i16 = 18; // [px]
+pub const CHECKLIST_DONE_OFFSET: Offset = Offset::y(3);
+pub const CHECKLIST_CURRENT_OFFSET: Offset = Offset::y(2);
 
 // Tile pattern grid constants
 const TILE_SIZE: i16 = ICON_TILE_STRIPES_BACKSLASH.toif.width();
@@ -104,6 +106,11 @@ pub const TILES_GRID: Grid = Grid::new(TILES_AREA, TILES_ROWS as usize, TILES_CO
 pub const TILES_SLASH_INDICES: [usize; 12] = [0, 4, 7, 11, 14, 15, 16, 18, 19, 20, 22, 23];
 
 // UI icons (white color).
+include_icon!(ICON_BORDER_240, "layout_eckhart/res/border_240.toif");
+include_icon!(
+    ICON_BORDER_TRACK_240,
+    "layout_eckhart/res/border_track_240.toif"
+);
 include_icon!(ICON_CHEVRON_DOWN, "layout_eckhart/res/chevron_down.toif");
 include_icon!(
     ICON_CHEVRON_DOWN_MINI,
