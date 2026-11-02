@@ -1,4 +1,5 @@
 use super::super::constant::SCREEN;
+use super::super::theme;
 use crate::ui::display::Color;
 use crate::ui::geometry::Insets;
 use crate::ui::shape::{self, Renderer};
@@ -33,5 +34,16 @@ impl ScreenBorder {
                 .with_alpha(alpha)
                 .render(target);
         }
+    }
+
+    /// Draw a dim static track just inside the progress border so the progress
+    /// screen is not completely empty before the first progress update.
+    pub fn render_track<'s>(&'s self, target: &mut impl Renderer<'s>) {
+        let area = SCREEN.inset(Insets::uniform(Self::WIDTH + 1));
+        shape::Bar::new(area)
+            .with_fg(theme::GREY_DARK)
+            .with_thickness(1)
+            .with_radius((Self::RADIUS - Self::WIDTH - 1).max(0))
+            .render(target);
     }
 }

@@ -51,6 +51,18 @@ impl Header {
         }
     }
 
+    /// Whether the header would render anything at all.
+    pub fn is_empty(&self) -> bool {
+        self.title.text().is_empty()
+            && self.left_button.is_none()
+            && self.right_button.is_none()
+            && self.icon.is_none()
+            && self
+                .fuel_gauge
+                .as_ref()
+                .map_or(true, |gauge| !gauge.should_be_shown())
+    }
+
     #[inline(never)]
     pub fn with_text_style(mut self, style: TextStyle) -> Self {
         self.title = self.title.styled(style);

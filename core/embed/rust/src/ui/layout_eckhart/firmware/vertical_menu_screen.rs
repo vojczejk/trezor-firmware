@@ -255,7 +255,15 @@ impl<T: MenuItems> Component for VerticalMenuScreen<T> {
         debug_assert_eq!(bounds.height(), SCREEN.height());
         debug_assert_eq!(bounds.width(), SCREEN.width());
 
-        let (header_area, rest) = bounds.split_top(Header::HEADER_HEIGHT);
+        // An empty header should not reserve any space, otherwise menus without
+        // a title start with a visible gap.
+        let rest = if self.header.is_empty() {
+            bounds
+        } else {
+            let (header_area, rest) = bounds.split_top(Header::HEADER_HEIGHT);
+            self.header.place(header_area);
+            rest
+        };
 
         let menu_area = if let Some(subtitle) = &mut self.subtitle {
             // Choose appropriate height for the subtitle
@@ -285,7 +293,6 @@ impl<T: MenuItems> Component for VerticalMenuScreen<T> {
             rest.outset(Insets::top(VerticalMenu::<ShortMenuVec>::BUTTON_TOP_SHRINK))
         };
 
-        self.header.place(header_area);
         self.menu.place(menu_area);
 
         bounds
