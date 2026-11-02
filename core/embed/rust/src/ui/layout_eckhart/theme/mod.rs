@@ -76,7 +76,7 @@ pub const fn color_to_led_color(color: Color) -> Color {
 // Scaled for the 240x240 display of T3T1. Eckhart's native values are tuned
 // for 380x520: horizontal metrics scale by ~0.63, vertical ones by ~0.46.
 pub const PADDING: i16 = 15; // [px]
-pub const HEADER_HEIGHT: i16 = 44; // [px]
+pub const HEADER_HEIGHT: i16 = 52; // [px]
 pub const SIDE_INSETS: Insets = Insets::sides(PADDING);
 pub const ACTION_BAR_HEIGHT: i16 = 42; // [px]
 pub const TEXT_VERTICAL_SPACING: i16 = 11; // [px]
