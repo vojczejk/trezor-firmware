@@ -31,4 +31,12 @@ impl ScreenBorder {
             .with_alpha(alpha)
             .render(target);
     }
+
+    /// Draw a dim static track just inside the progress border so the progress
+    /// screen is visible even before the first progress update.
+    pub fn render_track<'s>(&'s self, target: &mut impl Renderer<'s>) {
+        shape::ToifImage::new(SCREEN.top_left(), theme::ICON_BORDER_TRACK_240.toif)
+            .with_fg(theme::GREY_DARK)
+            .render(target);
+    }
 }

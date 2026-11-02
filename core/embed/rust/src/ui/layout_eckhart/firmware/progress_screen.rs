@@ -1,13 +1,13 @@
 use core::mem;
 
 use super::super::constant::SCREEN;
-use super::super::cshape::ScreenBorder;
+use super::super::cshape::{render_loader, render_loader_indeterminate, ScreenBorder};
 use super::super::theme;
 use crate::strutil::TString;
 use crate::translations::TR;
 use crate::ui::component::{Component, Event, EventCtx, Label, Never};
-use crate::ui::geometry::{Alignment2D, Offset, Point, Rect};
-use crate::ui::shape::{self, Renderer};
+use crate::ui::geometry::{Alignment2D, Offset, Rect};
+use crate::ui::shape::Renderer;
 use crate::ui::util::animation_disabled;
 
 const LOADER_SPEED: u16 = 5;
@@ -67,53 +67,6 @@ impl ProgressScreen {
         }
     }
 
-    const BAR_HEIGHT: i16 = 8;
-    const BAR_RADIUS: i16 = 4;
-
-    fn bar_area() -> Rect {
-        Rect::from_top_left_and_size(
-            Point::new(
-                theme::PADDING,
-                SCREEN.y1 - theme::ACTION_BAR_HEIGHT - theme::PADDING - Self::BAR_HEIGHT,
-            ),
-            Offset::new(
-                SCREEN.width() - 2 * theme::PADDING,
-                Self::BAR_HEIGHT,
-            ),
-        )
-    }
-
-    fn render_bar<'s>(&self, target: &mut impl Renderer<'s>) {
-        let area = Self::bar_area();
-
-        // Track
-        shape::Bar::new(area)
-            .with_bg(theme::GREY_DARK)
-            .with_radius(Self::BAR_RADIUS)
-            .render(target);
-
-        // Progress
-        let width = area.width();
-        let (x, fill_width) = if self.indeterminate {
-            let segment = width / 3;
-            let travel = (width - segment).max(1);
-            let offset = (i32::from(self.value.min(1000)) * i32::from(travel) / 1000) as i16;
-            (area.x0 + offset, segment)
-        } else {
-            let filled = (i32::from(width) * i32::from(self.value.min(1000)) / 1000) as i16;
-            (area.x0, filled)
-        };
-
-        if fill_width > 0 {
-            shape::Bar::new(Rect::from_top_left_and_size(
-                Point::new(x, area.y0),
-                Offset::new(fill_width, area.height()),
-            ))
-            .with_bg(self.border.color())
-            .with_radius(Self::BAR_RADIUS)
-            .render(target);
-        }
-    }
 }
 
 impl Component for ProgressScreen {
@@ -179,7 +132,12 @@ impl Component for ProgressScreen {
     }
 
     fn render<'s>(&'s self, target: &mut impl Renderer<'s>) {
-        self.render_bar(target);
+        let progress_val = self.value.min(1000);
+        if self.indeterminate {
+            render_loader_indeterminate(progress_val, &self.border, target);
+        } else {
+            render_loader(progress_val, &self.border, target);
+        }
         self.title.render(target);
         self.description.render(target);
         if self.coinjoin_progress {
