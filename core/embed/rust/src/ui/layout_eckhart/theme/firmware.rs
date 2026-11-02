@@ -491,19 +491,19 @@ pub const fn button_keyboard() -> ButtonStyleSheet {
 pub const fn button_keyboard_numeric() -> ButtonStyleSheet {
     ButtonStyleSheet {
         normal: &ButtonStyle {
-            font: fonts::FONT_SATOSHI_EXTRALIGHT_72,
+            font: fonts::FONT_SATOSHI_REGULAR_38,
             text_color: GREY_EXTRA_LIGHT,
             button_color: BG,
             icon_color: GREY_LIGHT,
         },
         active: &ButtonStyle {
-            font: fonts::FONT_SATOSHI_EXTRALIGHT_72,
+            font: fonts::FONT_SATOSHI_REGULAR_38,
             text_color: GREY_DARK,
             button_color: GREY_SUPER_DARK,
             icon_color: GREY_DARK,
         },
         disabled: &ButtonStyle {
-            font: fonts::FONT_SATOSHI_EXTRALIGHT_72,
+            font: fonts::FONT_SATOSHI_REGULAR_38,
             text_color: GREY_EXTRA_DARK,
             button_color: BG,
             icon_color: GREY_EXTRA_DARK,

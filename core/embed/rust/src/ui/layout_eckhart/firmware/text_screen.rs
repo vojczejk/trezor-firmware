@@ -13,9 +13,9 @@ use crate::ui::geometry::{Offset, Rect};
 use crate::ui::shape::Renderer;
 use crate::ui::util::Pager;
 
-const SUBTITLE_HEIGHT: i16 = 44;
-const SUBTITLE_DOUBLE_HEIGHT: i16 = 76;
-const SUBTITLE_TRIPLE_HEIGHT: i16 = 108;
+const SUBTITLE_HEIGHT: i16 = 20;
+const SUBTITLE_DOUBLE_HEIGHT: i16 = 35;
+const SUBTITLE_TRIPLE_HEIGHT: i16 = 50;
 
 /// Full-screen component for rendering text.
 ///

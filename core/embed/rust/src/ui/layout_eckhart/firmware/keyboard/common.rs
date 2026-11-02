@@ -183,15 +183,15 @@ pub const FADING_ICON_COLORS: [Color; FADING_ICON_COUNT] = [
 ];
 
 /// Visible area of the keypad. The touchable area is smaller
-pub const KEYPAD_VISIBLE_HEIGHT: i16 = 440;
+pub const KEYPAD_VISIBLE_HEIGHT: i16 = 184;
 /// Area of the input field that is touchable
-pub const INPUT_TOUCH_HEIGHT: i16 = 96;
+pub const INPUT_TOUCH_HEIGHT: i16 = 56;
 
-const TEXTBOX_HEIGHT: i16 = 72;
-const INPUT_TOP_PADDING: i16 = 16;
-const PROMPT_HEIGHT: i16 = 44;
-const PROMPT_TOP_PADDING: i16 = 35;
-const PROMPT_RIGHT_PADDING: i16 = 38;
+const TEXTBOX_HEIGHT: i16 = 40;
+const INPUT_TOP_PADDING: i16 = 8;
+const PROMPT_HEIGHT: i16 = 28;
+const PROMPT_TOP_PADDING: i16 = 8;
+const PROMPT_RIGHT_PADDING: i16 = 15;
 
 pub const KEYBOARD_INPUT_RADIUS: i16 = 12;
 pub const KEYBOARD_INPUT_INSETS: Insets = Insets::new(

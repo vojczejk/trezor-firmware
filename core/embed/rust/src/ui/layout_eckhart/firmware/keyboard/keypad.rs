@@ -63,8 +63,8 @@ pub enum KeypadMsg {
 
 impl Keypad {
     pub const MAX_KEYS: usize = KEYPAD_MAX_KEYS;
-    const KEYBOARD_BUTTON_HEIGHT: i16 = 70;
-    const KEYBOARD_BUTTON_RADIUS: u8 = 11;
+    const KEYBOARD_BUTTON_HEIGHT: i16 = 48;
+    const KEYBOARD_BUTTON_RADIUS: u8 = 6;
 
     const ERASE_BUTTON_INDEX: usize = 9;
     const CONFIRM_BUTTON_INDEX: usize = 11;
@@ -422,12 +422,12 @@ impl KeypadGrid {
     const VISIBLE_AREA: Rect = Self::visible_area();
 
     // Button dimensions.
-    const BUTTON_WIDTH: i16 = 136;
-    const BUTTON_HEIGHT: i16 = 134;
+    const BUTTON_WIDTH: i16 = 88;
+    const BUTTON_HEIGHT: i16 = 52;
 
     // Overlap parameters.
-    const VERTICAL_BUTTON_SPACING: i16 = 32;
-    const HORIZONTAL_BUTTON_PADDING: i16 = 7;
+    const VERTICAL_BUTTON_SPACING: i16 = 8;
+    const HORIZONTAL_BUTTON_PADDING: i16 = 6;
 
     // Precomputed border rects and touch insets for each grid entry.
     const BORDER_RECTS: [[Rect; COLS]; ROWS] = KeypadGrid::compute_border_rects();
