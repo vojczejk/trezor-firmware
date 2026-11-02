@@ -106,6 +106,7 @@ pub const TILES_GRID: Grid = Grid::new(TILES_AREA, TILES_ROWS as usize, TILES_CO
 pub const TILES_SLASH_INDICES: [usize; 12] = [0, 4, 7, 11, 14, 15, 16, 18, 19, 20, 22, 23];
 
 // UI icons (white color).
+include_icon!(ICON_BORDER_240, "layout_eckhart/res/border_240.toif");
 include_icon!(ICON_CHEVRON_DOWN, "layout_eckhart/res/chevron_down.toif");
 include_icon!(
     ICON_CHEVRON_DOWN_MINI,

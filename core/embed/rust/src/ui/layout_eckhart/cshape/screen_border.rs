@@ -1,13 +1,13 @@
 use super::super::constant::SCREEN;
 use super::super::theme;
 use crate::ui::display::Color;
-use crate::ui::geometry::Insets;
 use crate::ui::shape::{self, Renderer};
 
 /// Custom shape for a full screen border overlay, parameterizable by color.
 ///
 /// The native Eckhart border is a set of TOIF images cut for the 380x520 display.
-/// On the 240x240 display we draw a plain rounded rectangle instead.
+/// On the 240x240 display we use a single rounded-rectangle TOIF generated for
+/// this size instead.
 pub struct ScreenBorder {
     color: Color,
 }
@@ -21,29 +21,14 @@ impl ScreenBorder {
         Self { color }
     }
 
-    pub fn render<'s>(&'s self, alpha: u8, target: &mut impl Renderer<'s>) {
-        // Inset by half the stroke width so the whole outline stays on screen.
-        let area = SCREEN.inset(Insets::uniform(Self::WIDTH / 2));
-        // `draw_round_rect` is a 1px outline, so draw concentric outlines to
-        // get a border of the requested thickness.
-        for i in 0..Self::WIDTH {
-            shape::Bar::new(area.inset(Insets::uniform(i)))
-                .with_fg(self.color)
-                .with_thickness(1)
-                .with_radius((Self::RADIUS - i).max(0))
-                .with_alpha(alpha)
-                .render(target);
-        }
+    pub const fn color(&self) -> Color {
+        self.color
     }
 
-    /// Draw a dim static track just inside the progress border so the progress
-    /// screen is not completely empty before the first progress update.
-    pub fn render_track<'s>(&'s self, target: &mut impl Renderer<'s>) {
-        let area = SCREEN.inset(Insets::uniform(Self::WIDTH + 1));
-        shape::Bar::new(area)
-            .with_fg(theme::GREY_DARK)
-            .with_thickness(1)
-            .with_radius((Self::RADIUS - Self::WIDTH - 1).max(0))
+    pub fn render<'s>(&'s self, alpha: u8, target: &mut impl Renderer<'s>) {
+        shape::ToifImage::new(SCREEN.top_left(), theme::ICON_BORDER_240)
+            .with_fg(self.color)
+            .with_alpha(alpha)
             .render(target);
     }
 }
