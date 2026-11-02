@@ -22,7 +22,6 @@ pub fn render_loader<'s>(progress: u16, border: &'s ScreenBorder, target: &mut i
             .render(target);
     }
     // Keep a dim track visible so the progress screen is not empty at 0 %.
-    border.render_track(target);
 }
 
 /// Render the loader in indeterminate mode. A constant size portion of the
@@ -43,7 +42,6 @@ pub fn render_loader_indeterminate<'s>(
         border.render(u8::MAX, target);
     });
     // Keep a dim track visible so the progress screen is not empty at 0 %.
-    border.render_track(target);
 }
 
 fn progress_to_ratio(progress: u16) -> f32 {

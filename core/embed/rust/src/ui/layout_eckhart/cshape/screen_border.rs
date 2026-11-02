@@ -13,9 +13,9 @@ pub struct ScreenBorder {
 }
 
 impl ScreenBorder {
-    pub const WIDTH: i16 = 4;
-    pub const TOP_ARC_HEIGHT: i16 = Self::WIDTH;
-    pub const RADIUS: i16 = 10;
+    pub const WIDTH: i16 = 5;
+    pub const TOP_ARC_HEIGHT: i16 = Self::RADIUS;
+    pub const RADIUS: i16 = 18;
 
     pub const fn new(color: Color) -> Self {
         Self { color }
@@ -26,7 +26,7 @@ impl ScreenBorder {
     }
 
     pub fn render<'s>(&'s self, alpha: u8, target: &mut impl Renderer<'s>) {
-        shape::ToifImage::new(SCREEN.top_left(), theme::ICON_BORDER_240)
+        shape::ToifImage::new(SCREEN.top_left(), theme::ICON_BORDER_240.toif)
             .with_fg(self.color)
             .with_alpha(alpha)
             .render(target);
