@@ -134,6 +134,9 @@ void gfx_rgba8888_fill(const gfx_bitblt_t* bb);
 void gfx_rgba8888_copy_mono1p(const gfx_bitblt_t* bb);
 // Copies a mono bitmap (with 4-bit alpha channel)
 void gfx_rgba8888_copy_mono4(const gfx_bitblt_t* bb);
+// Blends a mono bitmap (with 1-bit alpha channel)
+// with the destination bitmap
+void gfx_rgba8888_blend_mono1p(const gfx_bitblt_t* bb);
 // Copies an RGB565 bitmap
 void gfx_rgba8888_copy_rgb565(const gfx_bitblt_t* bb);
 // Copies an RGBA8888 bitmap
