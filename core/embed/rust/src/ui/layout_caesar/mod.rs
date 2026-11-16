@@ -21,6 +21,8 @@ pub mod constant;
 pub mod cshape;
 pub mod fonts;
 pub mod theme;
+#[cfg(all(feature = "touch", feature = "button"))]
+pub mod touch;
 
 use component::{ErrorScreen, WelcomeScreen};
 
@@ -32,6 +34,46 @@ pub struct UICaesar {}
 pub mod ui_firmware;
 
 impl CommonUI for UICaesar {
+    #[cfg(feature = "backlight")]
+    fn fadein() {
+        crate::ui::display::fade_backlight_duration(theme::backlight::get_backlight_normal(), 150);
+    }
+
+    #[cfg(feature = "backlight")]
+    fn fadeout() {
+        crate::ui::display::fade_backlight_duration(theme::backlight::get_backlight_dim(), 150);
+    }
+
+    #[cfg(feature = "backlight")]
+    fn backlight_on() {
+        crate::ui::display::set_backlight(theme::backlight::get_backlight_normal());
+    }
+
+    #[cfg(feature = "backlight")]
+    fn get_backlight_none() -> u8 {
+        theme::backlight::get_backlight_none()
+    }
+
+    #[cfg(feature = "backlight")]
+    fn get_backlight_normal() -> u8 {
+        theme::backlight::get_backlight_normal()
+    }
+
+    #[cfg(feature = "backlight")]
+    fn get_backlight_low() -> u8 {
+        theme::backlight::get_backlight_low()
+    }
+
+    #[cfg(feature = "backlight")]
+    fn get_backlight_dim() -> u8 {
+        theme::backlight::get_backlight_dim()
+    }
+
+    #[cfg(feature = "backlight")]
+    fn get_backlight_max() -> u8 {
+        theme::backlight::get_backlight_max()
+    }
+
     const SCREEN: Rect = constant::SCREEN;
 
     fn screen_fatal_error(title: &str, msg: &str, footer: &str) {

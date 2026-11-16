@@ -981,10 +981,34 @@ impl FirmwareUI for UICaesar {
     }
 
     fn confirm_thp_pairing(
-        _title: TString<'static>,
-        _description: (StrBuffer, Obj),
+        title: TString<'static>,
+        description: (StrBuffer, Obj),
     ) -> Result<impl LayoutMaybeTrace, Error> {
-        Err::<RootComponent<Empty, ModelUI>, Error>(Error::NotImplementedError)
+        let (format, args_obj) = description;
+        let args: heapless::Vec<TString<'static>, 2> = util::iter_into_vec(args_obj)?;
+        let mut ops = OpTextLayout::new(theme::TEXT_NORMAL);
+        for part in crate::util::interpolate::parse(format) {
+            match part {
+                crate::util::interpolate::Item::Text(s) => {
+                    ops.add_text_with_font(s, fonts::FONT_NORMAL);
+                }
+                crate::util::interpolate::Item::Arg(i) => match args.get(i) {
+                    Some(&s) => {
+                        ops.add_text_with_font(s, fonts::FONT_BOLD);
+                    }
+                    None => return Err(Error::OutOfRange),
+                },
+            };
+        }
+        content_in_button_page(
+            title,
+            FormattedText::new(ops).vertically_centered(),
+            TR::buttons__confirm.into(),
+            Some(TR::buttons__cancel.into()),
+            false,
+            None,
+            false,
+        )
     }
 
     fn show_info(
