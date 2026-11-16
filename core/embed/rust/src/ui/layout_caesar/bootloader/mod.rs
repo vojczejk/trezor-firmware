@@ -389,4 +389,17 @@ impl BootloaderUI for UICaesar {
     fn screen_pairing_mode_finalizing(_initial_setup: bool) -> u32 {
         unimplemented!()
     }
+
+    #[cfg(feature = "power_manager")]
+    fn screen_bootloader_entry_progress(progress: u16, initialize: bool) {
+        Self::screen_progress(
+            "Starting\nbootloader...",
+            "Release the button",
+            progress,
+            initialize,
+            BLD_FG,
+            BLD_BG,
+            None,
+        )
+    }
 }

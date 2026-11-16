@@ -118,6 +118,14 @@ pub fn run(
 
         let event = sysevents_poll(ifaces.as_slice());
 
+        // Caesar is button-driven; on touch-only hardware translate bottom
+        // strip touches into the left/right button events it expects.
+        #[cfg(all(feature = "layout_caesar", feature = "button", feature = "touch"))]
+        let event = event.map(|e| match e {
+            Event::Touch(touch) => crate::ui::layout_caesar::touch::translate(touch),
+            e => e,
+        });
+
         if let Some(e) = event {
             if faded {
                 ModelUI::fadein();

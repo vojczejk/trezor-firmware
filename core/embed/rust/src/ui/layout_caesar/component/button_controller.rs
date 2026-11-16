@@ -447,6 +447,9 @@ impl Component for ButtonController {
                 self.reset_state(ctx);
                 None
             }
+            // The power button is handled by the power manager, not by the UI.
+            Event::Button(ButtonEvent::ButtonPressed(PhysicalButton::Power))
+            | Event::Button(ButtonEvent::ButtonReleased(PhysicalButton::Power)) => None,
             Event::Button(button_event) => {
                 let (new_state, event) = match self.state {
                     // _ _

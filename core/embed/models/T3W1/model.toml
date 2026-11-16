@@ -27,6 +27,6 @@ features = [
     "telemetry",
     "thp",
     "touch_wakeup",
-    "layout_eckhart",
+    "layout_caesar",
     "display_rgba8888",
 ]

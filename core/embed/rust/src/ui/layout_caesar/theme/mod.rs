@@ -7,6 +7,7 @@ use crate::ui::display::{Color, Font};
 use crate::ui::geometry::Offset;
 use crate::ui::util::include_icon;
 
+pub mod backlight;
 pub mod bootloader;
 
 // Color palette.

@@ -547,7 +547,11 @@ extern "C" fn ui_layout_touch_event(n_args: usize, args: *const Obj) -> Obj {
             args[2].try_into()?,
             args[3].try_into()?,
         )?;
-        let msg = this.inner_mut().obj_event(Event::Touch(event))?;
+        #[cfg(all(feature = "layout_caesar", feature = "button"))]
+        let event = crate::ui::layout_caesar::touch::translate(event);
+        #[cfg(not(all(feature = "layout_caesar", feature = "button")))]
+        let event = Event::Touch(event);
+        let msg = this.inner_mut().obj_event(event)?;
         Ok(msg)
     };
     unsafe { util::try_with_args_and_kwargs(n_args, args, &Map::EMPTY, block) }
