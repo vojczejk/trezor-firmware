@@ -156,7 +156,8 @@ pub fn new_receive(
     let content_qr = QrScreen::new(
         title_qr.into(),
         qr.map(|s| Qr::new(s, case_sensitive))
-            .map_err(|_| Error::ValueError(c"Invalid QR code"))?,
+            .map_err(|_| Error::ValueError(c"Invalid QR code"))?
+            .with_border(4),
     )
     .map(|_| Some(FlowMsg::Cancelled));
 

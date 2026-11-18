@@ -97,8 +97,8 @@ layout_eckhart = [
     "trezor_lib/ui_overlay",
     "trezor_lib/ui_jpeg",
     "trezor_lib/ui_font_kerning",
-    "trezor_lib/hw_jpeg_decoder",
-    "io/hw_jpeg_decoder",
+    # NOTE: hw_jpeg_decoder is intentionally omitted for T3T1 (STM32U58 has no
+    # hardware JPEG decoder). The software trezor-tjpgdec fallback is used.
 ]
 
 display_mono = ["trezor_lib/display_mono"]

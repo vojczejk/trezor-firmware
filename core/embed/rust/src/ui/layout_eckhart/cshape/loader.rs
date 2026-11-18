@@ -21,6 +21,7 @@ pub fn render_loader<'s>(progress: u16, border: &'s ScreenBorder, target: &mut i
             .with_alpha(u8::MAX)
             .render(target);
     }
+    border.render_track(target);
 }
 
 /// Render the loader in indeterminate mode. A constant size portion of the
@@ -40,6 +41,7 @@ pub fn render_loader_indeterminate<'s>(
     target.in_clip(clip_opposite, &|target| {
         border.render(u8::MAX, target);
     });
+    border.render_track(target);
 }
 
 fn progress_to_ratio(progress: u16) -> f32 {
@@ -126,7 +128,7 @@ fn get_progress_covers(progress_ratio: f32) -> impl Iterator<Item = Rect> {
         // Top-center to top-right
         const PROGRESS_PORTION: f32 = 0.11;
         const PROGRESS_START: f32 = 0.0;
-        const FULL_WIDTH: i16 = 190;
+        const FULL_WIDTH: i16 = SCREEN.width();
         let progress = ((progress_ratio - PROGRESS_START) / PROGRESS_PORTION).clamp(0.0, 1.0);
         let width = ((1.0 - progress) * f32::from(FULL_WIDTH)) as i16;
         Rect::snap(
@@ -179,7 +181,7 @@ fn get_progress_covers(progress_ratio: f32) -> impl Iterator<Item = Rect> {
         // Top-left to top-center
         const PROGRESS_PORTION: f32 = 0.11;
         const PROGRESS_START: f32 = 0.89;
-        const FULL_WIDTH: i16 = 190;
+        const FULL_WIDTH: i16 = SCREEN.width();
         let progress = ((progress_ratio - PROGRESS_START) / PROGRESS_PORTION).clamp(0.0, 1.0);
         let width = ((1.0 - progress) * f32::from(FULL_WIDTH)) as i16;
         Rect::snap(

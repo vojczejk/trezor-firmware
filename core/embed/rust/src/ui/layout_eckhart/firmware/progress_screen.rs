@@ -66,6 +66,7 @@ impl ProgressScreen {
             ),
         }
     }
+
 }
 
 impl Component for ProgressScreen {

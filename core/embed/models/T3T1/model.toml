@@ -12,7 +12,7 @@ features = [
     "framebuffer",
     "secure_mode",
     "tamper",
-    "layout_delizia",
+    "layout_eckhart",
     "display_rgb565",
 ]
 

@@ -29,9 +29,9 @@ enum HintContent<'a> {
 
 impl<'a> Hint<'a> {
     /// default height of the component [px]
-    pub const HEIGHT_MINIMAL: i16 = 40;
+    pub const HEIGHT_MINIMAL: i16 = 28;
     /// height of the multi line component [px]
-    pub const HEIGHT_MAXIMAL: i16 = 66;
+    pub const HEIGHT_MAXIMAL: i16 = 40;
 
     fn from_content(content: HintContent<'a>) -> Self {
         Self {

@@ -4,11 +4,11 @@ use sys::time::Duration;
 
 use super::component::Button;
 use super::firmware::{
-    ActionBar, Bip39Input, ConfirmHomescreen, DeviceMenuScreen, DurationInput, Header, HeaderMsg,
-    Hint, Homescreen, LabelInput, MnemonicKeyboard, NumberInput, PinKeyboard, ProgressScreen,
-    SelectWordCountScreen, SelectWordScreen, SetBrightnessScreen, ShortMenuVec, Slip39Input,
-    StringKeyboard, TextScreen, TextScreenMsg, ValueInputScreen, ValueInputScreenMsg, VerticalMenu,
-    VerticalMenuScreen, VerticalMenuScreenMsg,
+    ActionBar, Bip39Input, ConfirmHomescreen, DurationInput, Header, HeaderMsg, Hint, Homescreen,
+    LabelInput, MnemonicKeyboard, NumberInput, PinKeyboard, ProgressScreen, SelectWordCountScreen,
+    SelectWordScreen, SetBrightnessScreen, ShortMenuVec, Slip39Input, StringKeyboard, TextScreen,
+    TextScreenMsg, ValueInputScreen, ValueInputScreenMsg, VerticalMenu, VerticalMenuScreen,
+    VerticalMenuScreenMsg,
 };
 use super::theme::firmware::{button_actionbar_danger, button_confirm};
 use super::theme::gradient::Gradient;
@@ -32,7 +32,9 @@ use crate::ui::component::text::TextStyle;
 use crate::ui::component::{BLEHandler, BLEHandlerMode};
 use crate::ui::component::{ComponentExt as _, Empty, FormattedText, Timeout};
 use crate::ui::flow::FlowMsg;
-use crate::ui::geometry::{Alignment, LinearPlacement, Offset};
+#[cfg(feature = "ble")]
+use crate::ui::geometry::Alignment;
+use crate::ui::geometry::{LinearPlacement, Offset};
 use crate::ui::layout::menu_item_intent::MenuItemIntent;
 use crate::ui::layout::obj::{LayoutMaybeTrace, LayoutObj, RootComponent};
 use crate::ui::layout::util::{
@@ -1130,9 +1132,9 @@ impl FirmwareUI for UIEckhart {
         Ok(layout)
     }
 
-    fn show_device_menu(params: DeviceMenuParams) -> Result<impl LayoutMaybeTrace, Error> {
-        let layout = RootComponent::new(DeviceMenuScreen::new(params)?);
-        Ok(layout)
+    fn show_device_menu(_params: DeviceMenuParams) -> Result<impl LayoutMaybeTrace, Error> {
+        // Dropped on models without a power manager / BLE stack.
+        Err::<RootComponent<Empty, ModelUI>, Error>(Error::NotImplementedError)
     }
 
     fn show_pairing_device_name(
@@ -1205,42 +1207,20 @@ impl FirmwareUI for UIEckhart {
     }
 
     fn show_thp_pairing_code(
-        title: TString<'static>,
-        description: TString<'static>,
-        code: TString<'static>,
+        _title: TString<'static>,
+        _description: TString<'static>,
+        _code: TString<'static>,
     ) -> Result<impl LayoutMaybeTrace, Error> {
-        let flow =
-            flow::show_thp_pairing_code::new_show_thp_pairing_code(title, description, code)?;
-        Ok(flow)
+        // THP is not supported on this model.
+        Err::<RootComponent<Empty, ModelUI>, Error>(Error::NotImplementedError)
     }
 
     fn confirm_thp_pairing(
-        title: TString<'static>,
-        description: (StrBuffer, Obj),
+        _title: TString<'static>,
+        _description: (StrBuffer, Obj),
     ) -> Result<impl LayoutMaybeTrace, Error> {
-        let (format, args_obj) = description;
-        let args: heapless::Vec<TString<'static>, 2> = util::iter_into_vec(args_obj)?;
-        let style = theme::firmware::TEXT_REGULAR;
-        let mut ops = OpTextLayout::new(style);
-        for part in interpolate::parse(format) {
-            match part {
-                interpolate::Item::Text(s) => {
-                    ops.add_text_with_font(s, style.text_font);
-                }
-                interpolate::Item::Arg(i) => match args.get(i) {
-                    Some(&s) => {
-                        ops.add_color(theme::YELLOW);
-                        ops.add_text_with_font(s, style.text_font);
-                        ops.add_color(style.text_color);
-                    }
-                    None => return Err(Error::OutOfRange),
-                },
-            };
-        }
-        let screen = TextScreen::new(FormattedText::new(ops))
-            .with_header(Header::new(title))
-            .with_action_bar(ActionBar::new_cancel_confirm());
-        Ok(RootComponent::new(screen))
+        // THP is not supported on this model.
+        Err::<RootComponent<Empty, ModelUI>, Error>(Error::NotImplementedError)
     }
 
     fn show_info(

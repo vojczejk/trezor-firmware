@@ -2,7 +2,7 @@ use core::sync::atomic::{AtomicBool, Ordering};
 
 use sys::time::{Duration, Instant};
 
-use super::super::super::component::{ConnectionIndicator, FuelGauge};
+use super::super::super::component::FuelGauge;
 use super::super::constant::SCREEN;
 use super::super::theme;
 use super::helpers::{render_pill_shaped_background, SHADOW_HEIGHT};
@@ -27,8 +27,6 @@ pub(super) struct HomescreenHeader {
     label: Label<'static>,
     /// Fuel gauge (battery status indicator)
     fuel_gauge: FuelGauge,
-    /// Whether the device is connected to Host (either via USB or BLE)
-    connection_indicator: ConnectionIndicator,
     /// Whether a custom background image is used, which affects the layout and
     /// styling of the label
     background_image: bool,
@@ -60,7 +58,6 @@ impl HomescreenHeader {
             area: Rect::zero(),
             label: Label::left_aligned(label, style).top_aligned(),
             fuel_gauge: FuelGauge::always_icon_only(),
-            connection_indicator: ConnectionIndicator::new_polled(),
             background_image,
             show_indicators: show_info,
             text_width,
@@ -77,31 +74,15 @@ impl Component for HomescreenHeader {
     fn place(&mut self, bounds: Rect) -> Rect {
         if self.show_indicators {
             let (fuel_gauge_area, _) = bounds.split_left(self.fuel_gauge.content_width());
-            let connection_indicator_area = Rect::snap(
+            self.fuel_gauge.place(fuel_gauge_area);
+
+            let label_area = Rect::snap(
                 fuel_gauge_area.right_center(),
-                Offset::uniform(ConnectionIndicator::AREA_SIZE_NEEDED),
+                Offset::new(self.text_width, self.label.font().max_height),
                 Alignment2D::CENTER_LEFT,
             )
             // Visually align with the fuel gauge icon
-            .translate(Offset::new(Self::SUBCOMPONENTS_GAP, Self::FG_Y_OFFSET));
-
-            self.fuel_gauge.place(fuel_gauge_area);
-            self.connection_indicator.place(connection_indicator_area);
-
-            let label_area = {
-                let anchor = if self.connection_indicator.connected {
-                    connection_indicator_area.right_center()
-                } else {
-                    fuel_gauge_area.right_center()
-                };
-                Rect::snap(
-                    anchor,
-                    Offset::new(self.text_width, self.label.font().max_height),
-                    Alignment2D::CENTER_LEFT,
-                )
-                // Visually align with the fuel gauge icon
-                .translate(Offset::new(Self::SUBCOMPONENTS_GAP, Self::LABEL_Y_OFFSET))
-            };
+            .translate(Offset::new(Self::SUBCOMPONENTS_GAP, Self::LABEL_Y_OFFSET));
             self.label_area = label_area;
             self.label.place(label_area);
 
@@ -126,8 +107,11 @@ impl Component for HomescreenHeader {
     fn event(&mut self, ctx: &mut EventCtx, event: Event) -> Option<Self::Msg> {
         if self.show_indicators {
             self.fuel_gauge.event(ctx, event);
-            let connection_event = self.connection_indicator.event(ctx, event);
-            if matches!(event, Event::Attach(_) | Event::PM(_)) || connection_event.is_some() {
+            #[cfg(feature = "power_manager")]
+            let pm_event = matches!(event, Event::PM(_));
+            #[cfg(not(feature = "power_manager"))]
+            let pm_event = false;
+            if matches!(event, Event::Attach(_)) || pm_event {
                 // TODO: could FuelGauge also return Some(()) on update?
                 self.place(self.area);
                 ctx.request_paint();
@@ -163,7 +147,6 @@ impl Component for HomescreenHeader {
                 });
             }
             self.fuel_gauge.render(target);
-            self.connection_indicator.render(target);
         } else {
             self.label.render(target);
         }
@@ -359,6 +342,5 @@ impl crate::trace::Trace for HomescreenHeader {
         t.component("HomescreenStatus");
         t.child("label", &self.label);
         t.child("fuel_gauge", &self.fuel_gauge);
-        t.child("connection_indicator", &self.connection_indicator);
     }
 }

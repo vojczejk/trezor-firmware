@@ -1,7 +1,10 @@
 mod button;
 mod connection_indicator;
 mod error;
+#[cfg(feature = "power_manager")]
 mod fuel_gauge;
+#[cfg(not(feature = "power_manager"))]
+mod fuel_gauge_stub;
 mod update_screen;
 mod welcome_screen;
 
@@ -10,7 +13,10 @@ pub use button::{
 };
 pub use connection_indicator::ConnectionIndicator;
 pub use error::ErrorScreen;
+#[cfg(feature = "power_manager")]
 pub use fuel_gauge::FuelGauge;
+#[cfg(not(feature = "power_manager"))]
+pub use fuel_gauge_stub::FuelGauge;
 pub use update_screen::UpdateScreen;
 pub use welcome_screen::WelcomeScreen;
 

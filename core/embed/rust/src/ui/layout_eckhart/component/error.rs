@@ -1,6 +1,8 @@
 use super::super::cshape::ScreenBorder;
+#[cfg(feature = "rgb_led")]
+use super::super::theme::LED_RED;
 use super::super::theme::{
-    ACTION_BAR_HEIGHT, HEADER_HEIGHT, LED_RED, PADDING, RED, SIDE_INSETS, TEXT_NORMAL, TEXT_SMALL,
+    ACTION_BAR_HEIGHT, HEADER_HEIGHT, PADDING, RED, SIDE_INSETS, TEXT_NORMAL, TEXT_SMALL,
     TEXT_SMALL_GREY, TEXT_SMALL_GREY_EXTRA_LIGHT, TEXT_SMALL_RED, TEXT_VERTICAL_SPACING,
 };
 use super::super::WAIT_FOR_RESTART_MESSAGE;

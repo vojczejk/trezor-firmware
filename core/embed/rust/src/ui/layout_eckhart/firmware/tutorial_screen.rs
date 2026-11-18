@@ -3,7 +3,9 @@ use sys::time::Duration;
 use super::super::component::Button;
 use super::super::constant::SCREEN;
 use super::super::cshape::{render_loader_indeterminate, ScreenBorder};
-use super::super::theme::{self, ScreenBackground};
+#[cfg(feature = "rgb_led")]
+use super::super::theme::ScreenBackground;
+use super::super::theme::{self};
 use super::{ActionBar, ActionBarMsg};
 use crate::time::Stopwatch;
 use crate::translations::TR;

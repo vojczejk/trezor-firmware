@@ -60,10 +60,10 @@ pub struct Button {
 }
 
 impl Button {
-    const MENU_ITEM_RADIUS: u8 = 12;
+    const MENU_ITEM_RADIUS: u8 = 8;
     const MENU_ITEM_ALIGNMENT: Alignment = Alignment::Start;
-    pub const MENU_ITEM_CONTENT_OFFSET: Offset = Offset::x(12);
-    const CONN_ICON_WIDTH: i16 = 34;
+    pub const MENU_ITEM_CONTENT_OFFSET: Offset = Offset::x(8);
+    const CONN_ICON_WIDTH: i16 = 21;
     const SUBTEXT_GAP: i16 = 4; // extra pixels between text and subtext
 
     #[cfg(feature = "micropython")]
